@@ -125,14 +125,14 @@ async function main () {
     },
     async onRequest (req, reply) {
       req.dynamic = this.someHelper()
-      reply.send(`Hello from hooks: ${req.foobar} - ${req.dynamic}`)
+      reply.header('x-hello-1', `Hello from hooks: ${req.foobar} - ${req.dynamic}`)
     },
     preHandler: [
       async (req, reply) => {
-        reply.send('Hello from the first preHandler')
+        reply.header('x-hello-2', 'Hello from the first preHandler')
       },
       async (req, reply) => {
-        reply.send('Hello from the second preHandler')
+        reply.header('x-hello-3', 'Hello from the second preHandler')
       }
     ],
     before ({ get }) {
