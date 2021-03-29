@@ -16,7 +16,7 @@ function fastifyApply (fastify, options, done) {
     'onReady',
     'onClose',
     'onRoute',
-    'onRegister',
+    'onRegister'
   ]
 
   hooks.handle = (fastify, prop, value) => {
@@ -34,7 +34,7 @@ function fastifyApply (fastify, options, done) {
     'addHook',
     'decorate',
     'decorateRequest',
-    'decorateReply',
+    'decorateReply'
   ]
 
   methods.handle = (fastify, prop, value) => {
@@ -56,19 +56,19 @@ function fastifyApply (fastify, options, done) {
     'delete',
     'options',
     'patch',
-    'all',
+    'all'
   ]
 
   const skip = ['before', 'after', 'encapsulate']
 
-  async function apply(obj) {
+  async function apply (obj) {
     const wrapper = async function (fastify) {
       const proxy = new Proxy(fastify, {
         get (_, prop) {
           if (bind.includes(prop)) {
             return fastify[prop].bind(fastify)
           } else {
-            return fastify[prop] 
+            return fastify[prop]
           }
         }
       })
@@ -84,7 +84,7 @@ function fastifyApply (fastify, options, done) {
         }
         if (methods.includes(k)) {
           methods.handle(fastify, k, v)
-        }        
+        }
       }
       if (obj.after) {
         await obj.after(proxy)

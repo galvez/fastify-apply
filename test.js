@@ -1,21 +1,21 @@
-async function main() {
+async function main () {
   const fastify = require('fastify')()
   await fastify.register(require('./index'))
 
   fastify.apply({
-    after ({ get}) {
+    after ({ get }) {
       get('/*', (req, reply) => {
         reply.send('/* route properly registered')
       })
     },
     decorate: {
-      someHelper() {
+      someHelper () {
         return 'something'
-      },
+      }
     },
     decorateRequest: {
       foobar: 'something else',
-      dynamic: null,
+      dynamic: null
     },
     async onRequest (req, reply) {
       req.dynamic = this.someHelper()
@@ -27,13 +27,13 @@ async function main() {
       },
       async (req, reply) => {
         reply.send('Hello from the second preHandler')
-      },
+      }
     ],
-    before ({ get}) {
+    before ({ get }) {
       get('/before', (req, reply) => {
         reply.send('/before route properly registered')
       })
-    },
+    }
   })
 
   return fastify

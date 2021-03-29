@@ -16,7 +16,7 @@
   "homepage": "https://github.com/galvez/fastify-apply",
   "license": "MIT",
   "main": "index.js",
-  "name": "fastify-api",
+  "name": "fastify-apply",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/galvez/fastify-apply.git"
