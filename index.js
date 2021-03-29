@@ -1,7 +1,6 @@
 'use strict'
 
 const fp = require('fastify-plugin')
-const { assign } = Object
 
 function fastifyApply (fastify, options, done) {
   const hooks = [
@@ -60,7 +59,7 @@ function fastifyApply (fastify, options, done) {
     'all',
   ]
 
-  const skip = ['before', 'after']
+  const skip = ['before', 'after', 'encapsulate']
 
   async function apply(obj) {
     const wrapper = async function (fastify) {
@@ -91,7 +90,11 @@ function fastifyApply (fastify, options, done) {
         await obj.after(proxy)
       }
     }
-    await fastify.register(wrapper)
+    if (obj.encapsulate) {
+      await fastify.register(wrapper)
+    } else {
+      await fastify.register(fp(wrapper))
+    }
   }
 
   fastify.decorate('apply', apply)

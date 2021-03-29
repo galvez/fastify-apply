@@ -88,3 +88,15 @@ Full list of methods that come with this implicit binding:
 - `options`
 - `patch`
 - `all`
+
+## Encapsulation
+
+Unless you set `encapsulate` to `true`, the plugin will be wrapped with [`fastify-plugin`](https://github.com/fastify/fastify-plugin) so it stays in the global context. To ensure the applied plugin object is encapsulated:
+
+```js
+export default {
+  encapsulate: true,
+}
+```
+
+Hat off to [Matteo Collina](https://twitter.com/matteocollina) for suggesting this option's name.
