@@ -50,7 +50,6 @@ export default {
 
 Supported methods:
 
-- `addSchema`
 - `addHook`
 - `decorate`
 - `decorateRequest`

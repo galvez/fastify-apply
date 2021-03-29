@@ -30,7 +30,6 @@ function fastifyApply (fastify, options, done) {
   }
 
   const methods = [
-    'addSchema',
     'addHook',
     'decorate',
     'decorateRequest',
