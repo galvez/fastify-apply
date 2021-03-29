@@ -23,7 +23,7 @@ function fastifyApply (fastify, options, done) {
   hooks.handle = (fastify, prop, value) => {
     if (Array.isArray(value)) {
       for (const item of value) {
-        hooks.handle(prop, item)
+        hooks.handle(fastify, prop, item)
       }
       return
     }
@@ -31,8 +31,9 @@ function fastifyApply (fastify, options, done) {
   }
 
   const methods = [
-    'addSchema'
+    'addSchema',
     'addHook',
+    'decorate',
     'decorateRequest',
     'decorateReply',
   ]
@@ -44,7 +45,7 @@ function fastifyApply (fastify, options, done) {
   }
 
   const bind = [
-    'addSchema'
+    'addSchema',
     'addHook',
     'decorateRequest',
     'decorateReply',
@@ -59,9 +60,11 @@ function fastifyApply (fastify, options, done) {
     'all',
   ]
 
+  const skip = ['before', 'after']
+
   async function apply(obj) {
     const wrapper = async function (fastify) {
-      const proxy = new Proxy(source, {
+      const proxy = new Proxy(fastify, {
         get (_, prop) {
           if (bind.includes(prop)) {
             return fastify[prop].bind(fastify)
@@ -71,9 +74,12 @@ function fastifyApply (fastify, options, done) {
         }
       })
       if (obj.before) {
-        await before(proxy)
+        await obj.before(proxy)
       }
       for (const [k, v] of Object.entries(obj)) {
+        if (skip.includes(k)) {
+          continue
+        }
         if (hooks.includes(k)) {
           hooks.handle(fastify, k, v)
         }
@@ -82,7 +88,7 @@ function fastifyApply (fastify, options, done) {
         }        
       }
       if (obj.after) {
-        await after(proxy)
+        await obj.after(proxy)
       }
     }
     await fastify.register(wrapper)

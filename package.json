@@ -1,7 +1,7 @@
 {
   "scripts": {
     "lint": "eslint . --ext js --fix",
-    "test": "tap test",
+    "test": "tap test"
   },
   "bugs": {
     "url": "https://github.com/galvez/fastify-apply/issues"
@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/galvez/fastify-apply.git"
   },
-  "version": "0.1.1",
+  "version": "0.0.1",
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",
